@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Belajar React</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const container = document.getElementById('root');
+        const root = ReactDOM.createRoot(container);
+
+        function Header(props) {
+          return <h1>Selamat Datang, {props.name}!</h1>;
+        }
+
+        function HomePage() {
+          const mahasiswas = ['Roni', 'antonius', 'sinabutar'];
+          const [likes, setLikes] = React.useState(0);
+          
+          function handleClick(operasi) {
+            switch (operasi) {
+              case '+':
+                if (likes <= 10) {
+                  setLikes(likes + 1);
+                }
+                break;
+              case '-':
+                if (likes > 0) {
+                  setLikes(likes - 1);
+                }
+                break;
+              case 'Reset':
+                setLikes(0);
+                break;
+              default:
+                console.error('Operasi tidak ditemukan');
+            }
+          };
+
+          return (
+            <>
+              <Header name="Yuli" />
+              <ul>
+                {
+                  mahasiswas.map((mahasiswa) => (
+                    <li key={mahasiswa}>{mahasiswa}</li>
+                  ))
+                }
+              </ul>
+              <div>
+                <button onClick={() => handleClick('+')} disabled={likes >= 10}> + </button>
+                <p>{likes}</p>
+                <button onClick={() => handleClick('-')} disabled={likes <= 0}> - </button>
+              </div>
+              <button onClick={() => handleClick('Reset')} disabled={likes === 0}> Reset </button>
+
+              {likes === 10 && <p>Anda sudah mencapai batas maksimal</p>}
+              {likes === 0 && <p>Anda belum memberikan like</p>}
+
+            </>
+          );
+        }
+
+        root.render(<HomePage />);
+    </script>
+    
+</body>
+</html>
